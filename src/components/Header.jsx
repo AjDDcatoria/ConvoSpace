@@ -25,7 +25,7 @@ function Header() {
       supabase.auth.onAuthStateChange((event, currentUser) => {
         switch (event) {
           case "INITIAL_SESSION":
-            navigate("/chat");
+            // navigate(`${window.location.origin}/chat`);
             break;
           case "SIGNED_OUT":
             setUser(null);
@@ -42,6 +42,9 @@ function Header() {
   const login = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "github",
+      options: {
+        redirectTo: `${window.location.origin}/chat`,
+      },
     });
   };
 
