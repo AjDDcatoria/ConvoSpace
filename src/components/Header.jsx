@@ -39,6 +39,7 @@ function Header() {
     await supabase.auth.signInWithOAuth({
       provider: "github",
     });
+    window.location.href = "/";
   };
 
   const logout = async () => {
