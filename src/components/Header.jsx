@@ -3,8 +3,10 @@ import { supabase } from "../lib/helper/supabaseCient";
 import "../pages/sass/home.scss";
 import { BsRocketTakeoff } from "react-icons/bs";
 import { FaGithub } from "react-icons/fa";
+import { useHistory } from "react-router-dom";
 
 function Header() {
+  const history = useHistory();
   const [user, setUser] = useState(null);
   const [avatarLink, setAvatarLink] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -47,7 +49,7 @@ function Header() {
         return;
       }
 
-      window.location.href = "/";
+      history.push("/");
     } catch (error) {
       console.error("Error signing in:", error.message);
     }
