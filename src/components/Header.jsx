@@ -104,7 +104,7 @@ function Header() {
         </div>
       ) : (
         <button
-          onClick={login}
+          onClick={async () => await login()}
           className="p-3 login  h-7 w-[110px] rounded-md flex items-center justify-center gap-2"
         >
           <FaGithub />
