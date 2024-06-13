@@ -3,6 +3,7 @@ import { supabase } from "../lib/helper/supabaseCient";
 import "../pages/sass/home.scss";
 import { BsRocketTakeoff } from "react-icons/bs";
 import { FaGithub } from "react-icons/fa";
+
 function Header() {
   const [user, setUser] = useState(null);
   const [avatarLink, setAvatarLink] = useState(null);
@@ -39,7 +40,7 @@ function Header() {
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: "https://emiyiufxbmfuganoqqub.supabase.co/auth/v1/callback",
+        redirectTo: location.origin + "/",
       },
     });
   };
