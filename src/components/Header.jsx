@@ -38,8 +38,10 @@ function Header() {
   const login = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "github",
+      options: {
+        redirectTo: "https://emiyiufxbmfuganoqqub.supabase.co/auth/v1/callback",
+      },
     });
-    window.location.href = "/";
   };
 
   const logout = async () => {
