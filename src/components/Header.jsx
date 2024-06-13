@@ -40,7 +40,7 @@ function Header() {
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: location.origin + "/",
+        redirectTo: `${location.origin}`,
       },
     });
   };
