@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --btncolor: #02010e;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Cascadia Code";
+}
+
+body {
+  background-color: #010104;
+  color: #ffff;
+}
+
+div#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

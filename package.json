@@ -10,12 +10,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@supabase/supabase-js": "^2.43.4",
+    "bootstrap": "^5.3.3",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.2.1",
     "react-router-dom": "^6.23.1",
     "sass": "^1.77.5"
   },
   "devDependencies": {
+    "@types/node": "^20.14.2",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.2.1",
@@ -25,6 +31,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "postcss": "^8.4.38",
+    "react-error-overlay": "^6.0.9",
     "tailwindcss": "^3.4.4",
     "vite": "^5.2.0"
   }
