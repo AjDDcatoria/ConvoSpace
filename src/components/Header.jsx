@@ -39,13 +39,16 @@ function Header() {
   }, []);
 
   const login = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "github",
-      // options: {
-      // redirectTo: location.origin + "/",
-      // },
-    });
-    navigate("/");
+    await supabase.auth
+      .signInWithOAuth({
+        provider: "github",
+        // options: {
+        //   redirectTo: window.location.origin + "/",
+        // },
+      })
+      .then(() => {
+        navigate(`${window.location.origin}`);
+      });
   };
 
   const logout = async () => {
