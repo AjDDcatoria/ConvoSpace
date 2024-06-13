@@ -1,12 +1,11 @@
+"user client";
 import React, { useEffect, useState } from "react";
 import { supabase } from "../lib/helper/supabaseCient";
 import "../pages/sass/home.scss";
 import { BsRocketTakeoff } from "react-icons/bs";
 import { FaGithub } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 
 function Header() {
-  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [avatarLink, setAvatarLink] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -25,11 +24,9 @@ function Header() {
       supabase.auth.onAuthStateChange((event, currentUser) => {
         switch (event) {
           case "INITIAL_SESSION":
-            // navigate(`${window.location.origin}/chat`);
             break;
           case "SIGNED_OUT":
             setUser(null);
-            navigate("/");
             setAvatarLink(null);
             break;
           default:
@@ -43,7 +40,7 @@ function Header() {
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: `${window.location.origin}/chat`,
+        redirectTo: window.location.origin + "/",
       },
     });
   };
@@ -104,7 +101,7 @@ function Header() {
         </div>
       ) : (
         <button
-          onClick={async () => await login()}
+          onClick={login}
           className="p-3 login  h-7 w-[110px] rounded-md flex items-center justify-center gap-2"
         >
           <FaGithub />
