@@ -3,10 +3,10 @@ import { supabase } from "../lib/helper/supabaseCient";
 import "../pages/sass/home.scss";
 import { BsRocketTakeoff } from "react-icons/bs";
 import { FaGithub } from "react-icons/fa";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Header() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [avatarLink, setAvatarLink] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -39,20 +39,13 @@ function Header() {
   }, []);
 
   const login = async () => {
-    try {
-      const { user, session, error } = await supabase.auth.signInWithOAuth({
-        provider: "github",
-      });
-
-      if (error) {
-        console.error("Error signing in:", error.message);
-        return;
-      }
-
-      history.push("/");
-    } catch (error) {
-      console.error("Error signing in:", error.message);
-    }
+    await supabase.auth.signInWithOAuth({
+      provider: "github",
+      // options: {
+      // redirectTo: location.origin + "/",
+      // },
+    });
+    navigate("/");
   };
 
   const logout = async () => {
