@@ -37,12 +37,20 @@ function Header() {
   }, []);
 
   const login = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "github",
-      options: {
-        redirectTo: `${location.origin}`,
-      },
-    });
+    try {
+      const { user, session, error } = await supabase.auth.signInWithOAuth({
+        provider: "github",
+      });
+
+      if (error) {
+        console.error("Error signing in:", error.message);
+        return;
+      }
+
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error signing in:", error.message);
+    }
   };
 
   const logout = async () => {
