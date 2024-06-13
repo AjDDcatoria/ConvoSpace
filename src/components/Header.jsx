@@ -22,13 +22,14 @@ function Header() {
 
       setUser(currentUser?.session?.user);
       setAvatarLink(currentUser?.session?.user?.user_metadata?.avatar_url);
-      supabase.auth.onAuthStateChange(async (event, currentUser) => {
+      supabase.auth.onAuthStateChange((event, currentUser) => {
         switch (event) {
-          case "SIGNED_IN":
-            setUser(currentUser?.session?.user);
+          case "INITIAL_SESSION":
+            navigate("/chat");
             break;
           case "SIGNED_OUT":
             setUser(null);
+            navigate("/");
             setAvatarLink(null);
             break;
           default:
@@ -41,9 +42,6 @@ function Header() {
   const login = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "github",
-      options: {
-        redirectTo: window.location.origin,
-      },
     });
   };
 
