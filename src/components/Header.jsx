@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../lib/helper/supabaseCient";
 import "../pages/sass/home.scss";
-import { BsRocketTakeoff } from "react-icons/bs";
 import { FaGithub } from "react-icons/fa";
 import Rocket from "../assets/shuttle (1).png";
 
@@ -41,7 +40,7 @@ function Header() {
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: window.location.origin + "/",
+        redirectTo: window.location.origin + "/auth/callback",
       },
     });
   };
