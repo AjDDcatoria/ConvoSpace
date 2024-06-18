@@ -42,7 +42,7 @@ function Header() {
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: window.location.origin + "/auth/v1/callback",
+        redirectTo: window.location.origin + "/",
       },
     });
   };
@@ -78,7 +78,7 @@ function Header() {
         </div>
       </div>
       {user ? (
-        <div className="relative">
+        <div className="relative z-10">
           <button onClick={toggleDropdown}>
             <img
               src={avatarLink}
