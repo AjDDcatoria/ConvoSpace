@@ -35,8 +35,8 @@ div#root {
 
 .grid {
   display: grid;
-  gap: 3rem;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 2fr));
 }
 
 .grid > a {
@@ -117,4 +117,21 @@ img.theme-green {
 .theme-green::before {
   background-color: var(--green-bg);
   border: 1px solid var(--green-br);
+}
+
+@keyframes float {
+  0% {
+    transform: translatey(0px);
+  }
+  50% {
+    transform: translatey(-10px);
+  }
+  100% {
+    transform: translatey(0px);
+  }
+}
+
+.grid .icon {
+  border-radius: 50%;
+  animation: float 3s ease-in-out infinite;
 }
