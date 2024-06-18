@@ -4,6 +4,7 @@ import { supabase } from "../lib/helper/supabaseCient";
 import "../pages/sass/home.scss";
 import { BsRocketTakeoff } from "react-icons/bs";
 import { FaGithub } from "react-icons/fa";
+import Rocket from "../assets/shuttle (1).png";
 
 function Header() {
   const [user, setUser] = useState(null);
@@ -64,8 +65,8 @@ function Header() {
   return (
     <header className="h-[80px] flex items-center justify-between pl-5 pr-5 max-w-[1000px] w-full">
       <div className="flex gap-2">
-        <h1 className="text-2xl">ChatDev</h1>
-        <BsRocketTakeoff size={"20px"} color="green" className="rocket" />
+        <h1 className="text-3xl">ChatDev</h1>
+        <img src={Rocket} alt={Rocket} className="h-7 rocket" />
       </div>
       {user ? (
         <div className="relative">
