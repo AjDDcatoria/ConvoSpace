@@ -40,21 +40,22 @@ function Header() {
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: window.location.origin + "/auth/callback",
+        redirectTo: window.location.origin + "/auth/v1/callback",
       },
     });
   };
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    const response = await supabase.auth.signOut();
+    if (response.error) alert(response.error);
   };
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const handleItemClick = (item) => {
+  const handleItemClick = async (item) => {
     if (item == "logout") {
-      logout();
+      await logout();
     } else {
       console.log(`Clicked ${item}`);
     }
