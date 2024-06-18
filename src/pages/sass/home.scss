@@ -9,8 +9,8 @@ div#root {
     button.login {
       background-color: var(--btncolor);
       border: 1px solid rgb(84, 84, 84);
-      font-weight: 200;
-      font-size: 12px;
+      font-weight: 400;
+      font-size: 14px;
       color: #ffff;
       transition: all 0.3s ease;
     }
@@ -32,7 +32,7 @@ div#root {
 
     button.login:hover {
       background-color: rgb(33, 31, 49);
-      border: 1px solid green;
+      border: 1px solid rgb(7, 191, 7);
     }
 
     div.dropdown {

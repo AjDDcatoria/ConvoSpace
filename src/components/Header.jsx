@@ -24,7 +24,8 @@ function Header() {
       supabase.auth.initialize(currentUser);
       supabase.auth.onAuthStateChange((event, currentUser) => {
         switch (event) {
-          case "INITIAL_SESSION":
+          case "SIGNED_IN":
+            supabase.auth.setSession(currentUser);
             break;
           case "SIGNED_OUT":
             setUser(null);
@@ -35,7 +36,7 @@ function Header() {
       });
     };
     fetchSession();
-  }, []);
+  }, [setUser]);
 
   const login = async () => {
     await supabase.auth.signInWithOAuth({
@@ -111,7 +112,7 @@ function Header() {
       ) : (
         <button
           onClick={login}
-          className="p-3 login  h-7 w-[110px] rounded-md flex items-center justify-center gap-2"
+          className="p-3 login h-10 w-[120px] rounded-md flex items-center justify-center gap-2"
         >
           <FaGithub />
           Login
