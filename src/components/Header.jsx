@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../lib/helper/supabaseCient";
 import "../pages/sass/home.scss";
-import { BsRocketTakeoff } from "react-icons/bs";
 import { FaGithub } from "react-icons/fa";
 import Rocket from "../assets/shuttle (1).png";
 
@@ -22,6 +21,7 @@ function Header() {
 
       setUser(currentUser?.session?.user);
       setAvatarLink(currentUser?.session?.user?.user_metadata?.avatar_url);
+      supabase.auth.initialize(currentUser);
       supabase.auth.onAuthStateChange((event, currentUser) => {
         switch (event) {
           case "INITIAL_SESSION":
@@ -41,21 +41,22 @@ function Header() {
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: window.location.origin + "/",
+        redirectTo: window.location.origin + "/auth/v1/callback",
       },
     });
   };
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    const response = await supabase.auth.signOut();
+    if (response.error) alert(response.error);
   };
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const handleItemClick = (item) => {
+  const handleItemClick = async (item) => {
     if (item == "logout") {
-      logout();
+      await logout();
     } else {
       console.log(`Clicked ${item}`);
     }
@@ -63,10 +64,17 @@ function Header() {
   };
 
   return (
-    <header className="h-[80px] flex items-center justify-between pl-5 pr-5 max-w-[1000px] w-full">
-      <div className="flex gap-2">
-        <h1 className="text-3xl">ChatDev</h1>
-        <img src={Rocket} alt={Rocket} className="h-7 rocket" />
+    <header className="h-[100px] flex items-center  justify-between pl-5 pr-5 max-w-[1000px] w-full">
+      <div className="flex gap-2 flex-col mt-8 text-wrap">
+        <div className="flex gap-2">
+          <h1 className="text-3xl">ChatDev</h1>
+          <img src={Rocket} alt={Rocket} className="h-7 rocket" />
+        </div>
+        <div>
+          <p className="text-green-400">
+            Create or join Chat<span className="text-2xl">🥳</span>
+          </p>
+        </div>
       </div>
       {user ? (
         <div className="relative">
