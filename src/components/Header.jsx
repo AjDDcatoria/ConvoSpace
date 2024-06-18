@@ -21,6 +21,7 @@ function Header() {
 
       setUser(currentUser?.session?.user);
       setAvatarLink(currentUser?.session?.user?.user_metadata?.avatar_url);
+      supabase.auth.initialize(currentUser);
       supabase.auth.onAuthStateChange((event, currentUser) => {
         switch (event) {
           case "INITIAL_SESSION":
@@ -63,10 +64,17 @@ function Header() {
   };
 
   return (
-    <header className="h-[80px] flex items-center justify-between pl-5 pr-5 max-w-[1000px] w-full">
-      <div className="flex gap-2">
-        <h1 className="text-3xl">ChatDev</h1>
-        <img src={Rocket} alt={Rocket} className="h-7 rocket" />
+    <header className="h-[100px] flex items-center  justify-between pl-5 pr-5 max-w-[1000px] w-full">
+      <div className="flex gap-2 flex-col mt-8 text-wrap">
+        <div className="flex gap-2">
+          <h1 className="text-3xl">ChatDev</h1>
+          <img src={Rocket} alt={Rocket} className="h-7 rocket" />
+        </div>
+        <div>
+          <p className="text-green-400">
+            Create or join Chat<span className="text-2xl">🥳</span>
+          </p>
+        </div>
       </div>
       {user ? (
         <div className="relative">

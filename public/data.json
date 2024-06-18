@@ -1,0 +1,54 @@
+{
+  "groupChat": [
+    {
+      "chat": {
+        "title": "React is the best ⚛",
+        "user": "Aj DDcatoria",
+        "avatar": "https://avatars.githubusercontent.com/u/108705731?v=4",
+        "description": null,
+        "icon": "🤖",
+        "theme": "theme-green"
+      }
+    },
+    {
+      "chat": {
+        "title": "Best Backend Services",
+        "user": "Aj DDcatoria",
+        "avatar": "https://avatars.githubusercontent.com/u/108705731?v=4",
+        "description": null,
+        "icon": "👾",
+        "theme": "theme-yellow"
+      }
+    },
+    {
+      "chat": {
+        "title": "Study with Us💅",
+        "user": "Liam Rebuyon",
+        "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLJDIKTc1eDXfQ5OWlDKdt-3-5n5m348nNKU6JtCz6bnvFWObzX=s96-c",
+        "description": null,
+        "icon": "💋",
+        "theme": "theme-yellow"
+      }
+    },
+    {
+      "chat": {
+        "title": "Chika 4 todays Video",
+        "user": "Aj DDcatoria",
+        "avatar": "https://avatars.githubusercontent.com/u/108705731?v=4",
+        "description": null,
+        "icon": "👑",
+        "theme": "theme-blue"
+      }
+    },
+    {
+      "chat": {
+        "title": "Coming Soon.",
+        "user": "Aj DDcatoria",
+        "avatar": "https://avatars.githubusercontent.com/u/108705731?v=4",
+        "description": null,
+        "icon": "👀",
+        "theme": "theme-violet"
+      }
+    }
+  ]
+}

@@ -4,6 +4,14 @@
 
 :root {
   --btncolor: #02010e;
+  --yellow-bg: rgba(255, 255, 0, 0.156);
+  --yellow-br: rgba(255, 255, 0, 0.67);
+  --violet-bg: rgba(75, 6, 98, 0.409);
+  --violet-br: rgba(185, 3, 246, 0.815);
+  --green-bg: rgba(7, 72, 6, 0.946);
+  --green-br: rgba(15, 238, 11, 0.672);
+  --blue-bg: rgba(10, 120, 142, 0.486);
+  --blue-br: rgba(8, 188, 224, 0.946);
 }
 
 * {
@@ -23,4 +31,90 @@ div#root {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.grid {
+  display: grid;
+  gap: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+}
+
+.grid > a {
+  height: fit-content;
+  padding: 15px 20px;
+  width: 100%;
+  background-color: rgb(34, 35, 38);
+  border: 1px solid rgb(95, 95, 95);
+  top: 0;
+  right: 0;
+  transition: all 0.3s ease;
+}
+
+.grid > a p.created {
+  font-size: 10px;
+}
+
+.grid > a:hover {
+  top: 10px;
+  right: -13px;
+}
+
+.grid > a:hover:before {
+  top: 0;
+  left: 0px;
+}
+
+.grid > a:before {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: -1;
+  top: 10px;
+  left: 15px;
+  transition: all 0.3s ease;
+}
+
+img.theme-yellow {
+  border: 2px solid var(--yellow-br);
+}
+.theme-yellow:hover {
+  border: 1px solid var(--yellow-br);
+}
+.theme-yellow::before {
+  background-color: var(--yellow-bg);
+  border: 1px solid var(--yellow-br);
+}
+
+img.theme-blue {
+  border: 2px solid var(--blue-br);
+}
+.theme-blue:hover {
+  border: 1px solid var(--blue-br);
+}
+.theme-blue::before {
+  background-color: var(--blue-bg);
+  border: 1px solid var(--blue-br);
+}
+
+img.theme-violet {
+  border: 2px solid var(--violet-br);
+}
+.theme-violet:hover {
+  border: 1px solid var(--violet-br);
+}
+.theme-violet::before {
+  background-color: var(--violet-bg);
+  border: 1px solid var(--violet-br);
+}
+
+img.theme-green {
+  border: 2px solid var(--green-br);
+}
+.theme-green:hover {
+  border: 1px solid var(--green-br);
+}
+.theme-green::before {
+  background-color: var(--green-bg);
+  border: 1px solid var(--green-br);
 }
