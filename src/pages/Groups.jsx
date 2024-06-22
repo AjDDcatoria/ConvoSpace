@@ -1,27 +1,12 @@
-import { supabase } from "@/lib/helper/supabaseCient";
-import React, { useEffect, useState } from "react";
+import { ChatContext } from "@/context/ChatContext";
+import React, { useContext, useEffect } from "react";
 
 function Groups() {
-  const [groupChat, setGroupChat] = useState([]);
-  const [fetcError, setFetchError] = useState(null);
+  const { groupChat, getGroupChat } = useContext(ChatContext);
 
   useEffect(() => {
-    const fetchGroupChat = async () => {
-      const { data, error } = await supabase.from("groupchat").select("*");
-
-      if (error) {
-        setFetchError("Error fetching");
-        setGroupChat(null);
-      }
-
-      if (data) {
-        setGroupChat(data);
-        setFetchError(null);
-      }
-    };
-
-    fetchGroupChat();
-  }, [setGroupChat]);
+    getGroupChat();
+  }, []);
 
   return (
     <section className="max-w-[1000px] grid p-7 w-full">
