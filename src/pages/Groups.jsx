@@ -14,7 +14,7 @@ function Groups() {
         {groupChat &&
           groupChat.map((item, index) => (
             <a
-              href={`chat/${item.id}`}
+              href={`${window.location.origin}/chat/${item.id}`}
               key={index}
               className={`${item?.theme} bg-gray-900 flex flex-col gap-2 relative cursor-pointer rounded before:rounded`}
             >
