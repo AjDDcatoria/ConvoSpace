@@ -1,5 +1,6 @@
 import { ChatContext } from "@/context/ChatContext";
 import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Groups() {
   const { groupChat, getGroupChat } = useContext(ChatContext);
@@ -13,8 +14,8 @@ function Groups() {
       <section className="max-w-[1000px] grid p-7 w-full pr-10">
         {groupChat &&
           groupChat.map((item, index) => (
-            <a
-              href={`${window.location.origin}/chat/${item.id}`}
+            <Link
+              to={`/chat/${item.id}`}
               key={index}
               className={`${item?.theme} bg-gray-900 flex flex-col gap-2 relative cursor-pointer rounded before:rounded`}
             >
@@ -31,7 +32,7 @@ function Groups() {
               <div>
                 <p className="text-xl">{item?.title}</p>
               </div>
-            </a>
+            </Link>
           ))}
       </section>
     </>
