@@ -8,14 +8,27 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { AuthContext } from "@/context/AuthContext";
 import VirticalModal from "./VerticalModal";
+import { ChatContext } from "@/context/ChatContext";
 
 function Header() {
   const [modalShow, setModalShow] = useState(false);
   const { setUser, removeUser, currentUser } = useContext(AuthContext);
+  const { createGroup, getGroupChat } = useContext(ChatContext);
   const [title, setTitle] = useState("");
 
   useEffect(() => {
     setUser();
+    const channel = supabase
+      .channel("addchat")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "groupchat" },
+        handleInserts
+      )
+      .subscribe();
+    return () => {
+      channel.unsubscribe();
+    };
   }, []);
 
   const login = async () => {
@@ -35,10 +48,16 @@ function Header() {
   };
 
   const handleSubmit = () => {
-    console.log("Input Value:", title);
+    createGroup(title);
     setModalShow(false);
     setTitle("");
   };
+
+  const handleInserts = (payload) => {
+    console.log("Change received!", payload);
+    getGroupChat();
+  };
+
   const handleInputChange = (event) => {
     setTitle(event.target.value);
   };
@@ -46,11 +65,11 @@ function Header() {
   return (
     <>
       <header className="h-[100px] flex items-center  justify-between pl-5 pr-5 max-w-[1000px] w-full">
-        <div className="flex gap-2 flex-col mt-8 text-wrap">
+        <div className="text-wrap pt-4 leading-[13px]">
           <Title />
-          <div>
-            <p className="text-green-400">
-              Create or join Chat<span className="text-2xl">🥳</span>
+          <div className="max-w-[950px] w-full">
+            <p className="text-green-400 text-left text-[13px]">
+              ? Create : Join <span className="text-xl">🥳</span>
             </p>
           </div>
         </div>
