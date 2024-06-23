@@ -4,10 +4,10 @@ import "../pages/sass/home.scss";
 import { FaGithub } from "react-icons/fa";
 import Dropdown from "react-bootstrap/Dropdown";
 import Title from "@/components/Title";
-import Modal from "@/components/Modal";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { AuthContext } from "@/context/AuthContext";
+import VirticalModal from "./VerticalModal";
 
 function Header() {
   const [modalShow, setModalShow] = useState(false);
@@ -60,7 +60,7 @@ function Header() {
               id="dropdown-basic"
               className="bg-transparent border-0"
             >
-              {currentUser?.user_name ?? currentUser?.full_name}
+              {currentUser?.display_name}
             </Dropdown.Toggle>
 
             <Dropdown.Menu className="modal-menu">
@@ -80,7 +80,7 @@ function Header() {
           </button>
         )}
       </header>
-      <Modal
+      <VirticalModal
         show={modalShow}
         onHide={() => setModalShow(false)}
         heading={"Create Chat🥳"}
@@ -97,7 +97,7 @@ function Header() {
             aria-describedby="basic-addon1"
           />
         </InputGroup>
-      </Modal>
+      </VirticalModal>
     </>
   );
 }

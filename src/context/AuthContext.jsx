@@ -13,24 +13,56 @@ const AuthContextProvider = ({ children }) => {
   }, [currentUser]);
 
   const setUser = async () => {
-    const { data, error } = await supabase.auth.getSession();
-    if (error) {
-      console.error(error);
-      return;
-    }
-    setCurrentUser(data?.session?.user?.user_metadata);
-    supabase.auth.initialize(currentUser);
-    supabase.auth.onAuthStateChange(async (event, currentUser) => {
-      switch (event) {
-        case "SIGNED_IN":
-          await supabase.auth.setSession(currentUser);
-          break;
-        case "SIGNED_OUT":
-          removeUser();
-          break;
-        default:
+    const { data: sessionData } = await supabase.auth.getSession();
+
+    if (sessionData?.session) {
+      const userEmail = sessionData?.session?.user?.email;
+
+      const { data: userResult } = await supabase
+        .from("users")
+        .select()
+        .eq("email", userEmail)
+        .single();
+
+      if (userResult) {
+        setCurrentUser(userResult);
+      } else {
+        const newUser = {
+          display_name: sessionData?.session?.user?.user_metadata.user_name,
+          email: userEmail,
+          avatar: sessionData?.session?.user?.user_metadata?.avatar_url,
+          user_id: sessionData?.session?.user?.id,
+        };
+
+        const { data: insertData } = await supabase
+          .from("users")
+          .insert([newUser]);
+
+        if (insertData) {
+          const { data: newUserResult, error: newUserError } = await supabase
+            .from("users")
+            .select()
+            .eq("email", userEmail)
+            .single();
+
+          if (newUserError) {
+            console.error(newUserError);
+            return;
+          }
+          setCurrentUser(newUserResult);
+        }
       }
-    });
+
+      supabase.auth.initialize(currentUser);
+
+      supabase.auth.onAuthStateChange(async (event, session) => {
+        if (event == "SIGNED_OUT") {
+          removeUser();
+        } else {
+          supabase.auth.setSession(session?.user?.user_metadata);
+        }
+      });
+    }
   };
 
   const removeUser = async () => {

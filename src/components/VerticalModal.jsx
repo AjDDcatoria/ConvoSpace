@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-function Moda({ children, ...props }) {
+function VirticalModal({ children, submitfunc, ...props }) {
   return (
     <Modal
       {...props}
@@ -23,10 +23,10 @@ function Moda({ children, ...props }) {
         {children}
       </Modal.Body>
       <Modal.Footer className="modal-create">
-        <Button onClick={props.submitfunc}>Create</Button>
+        <Button onClick={submitfunc}>Create</Button>
       </Modal.Footer>
     </Modal>
   );
 }
 
-export default Moda;
+export default VirticalModal;
