@@ -1,42 +1,35 @@
-"user client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { supabase } from "../lib/helper/supabaseCient";
 import "../pages/sass/home.scss";
 import { FaGithub } from "react-icons/fa";
-import Rocket from "../assets/shuttle (1).png";
+import Dropdown from "react-bootstrap/Dropdown";
+import Title from "@/components/Title";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import { AuthContext } from "@/context/AuthContext";
+import VirticalModal from "./VerticalModal";
+import { ChatContext } from "@/context/ChatContext";
 
 function Header() {
-  const [user, setUser] = useState(null);
-  const [avatarLink, setAvatarLink] = useState(null);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  const { setUser, removeUser, currentUser } = useContext(AuthContext);
+  const { createGroup, getGroupChat } = useContext(ChatContext);
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
-    const fetchSession = async () => {
-      const { data: currentUser, error } = await supabase.auth.getSession();
-
-      if (error) {
-        console.error("Error fetching session:", error.message);
-        return;
-      }
-
-      setUser(currentUser?.session?.user);
-      setAvatarLink(currentUser?.session?.user?.user_metadata?.avatar_url);
-      supabase.auth.initialize(currentUser);
-      supabase.auth.onAuthStateChange((event, currentUser) => {
-        switch (event) {
-          case "SIGNED_IN":
-            supabase.auth.setSession(currentUser);
-            break;
-          case "SIGNED_OUT":
-            setUser(null);
-            setAvatarLink(null);
-            break;
-          default:
-        }
-      });
+    setUser();
+    const channel = supabase
+      .channel("addchat")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "groupchat" },
+        handleInserts
+      )
+      .subscribe();
+    return () => {
+      channel.unsubscribe();
     };
-    fetchSession();
-  }, [setUser]);
+  }, []);
 
   const login = async () => {
     await supabase.auth.signInWithOAuth({
@@ -49,76 +42,82 @@ function Header() {
 
   const logout = async () => {
     const response = await supabase.auth.signOut();
+    removeUser();
+    window.location.reload();
     if (response.error) alert(response.error);
   };
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+
+  const handleSubmit = () => {
+    createGroup(title);
+    setModalShow(false);
+    setTitle("");
   };
 
-  const handleItemClick = async (item) => {
-    if (item == "logout") {
-      await logout();
-    } else {
-      console.log(`Clicked ${item}`);
-    }
-    setIsDropdownOpen(false);
+  const handleInserts = (payload) => {
+    console.log("Change received!", payload);
+    getGroupChat();
+  };
+
+  const handleInputChange = (event) => {
+    setTitle(event.target.value);
   };
 
   return (
-    <header className="h-[100px] flex items-center  justify-between pl-5 pr-5 max-w-[1000px] w-full">
-      <div className="flex gap-2 flex-col mt-8 text-wrap">
-        <div className="flex gap-2">
-          <h1 className="text-3xl">ChatDev</h1>
-          <img src={Rocket} alt={Rocket} className="h-7 rocket" />
+    <>
+      <header className="h-[100px] flex items-center  justify-between pl-5 pr-5 max-w-[1000px] w-full">
+        <div className="text-wrap pt-4 leading-[13px]">
+          <Title />
+          <div className="max-w-[950px] w-full">
+            <p className="text-green-400 text-left text-[13px]">
+              ? Create : Join <span className="text-xl">🥳</span>
+            </p>
+          </div>
         </div>
-        <div>
-          <p className="text-green-400">
-            Create or join Chat<span className="text-2xl">🥳</span>
-          </p>
-        </div>
-      </div>
-      {user ? (
-        <div className="relative z-10">
-          <button onClick={toggleDropdown}>
-            <img
-              src={avatarLink}
-              className="h-10 w-10 rounded-full image-rendering-pixelated"
-              alt="Avatar"
-            />
+        {currentUser ? (
+          <Dropdown className="bg-transparent border-0 rounded-full">
+            <Dropdown.Toggle
+              id="dropdown-basic"
+              className="bg-transparent border-0"
+            >
+              {currentUser?.display_name}
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu className="modal-menu">
+              <Dropdown.Item onClick={() => setModalShow(true)}>
+                Create Chat
+              </Dropdown.Item>
+              <Dropdown.Item onClick={logout}>Logout</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        ) : (
+          <button
+            onClick={login}
+            className="p-3 login h-10 w-[120px] rounded-md flex items-center justify-center gap-2"
+          >
+            <FaGithub />
+            Login
           </button>
-          {isDropdownOpen && (
-            <div className="absolute top-full right-0 mt-1 border rounded shadow-lg dropdown">
-              <ul>
-                <li className="w-28">
-                  <button
-                    onClick={() => handleItemClick("gc")}
-                    className="block px-4 py-2 text-sm "
-                  >
-                    Make Chat
-                  </button>
-                </li>
-                <li className="w-28">
-                  <button
-                    onClick={() => handleItemClick("logout")}
-                    className="block px-4 py-2 text-sm "
-                  >
-                    Logout
-                  </button>
-                </li>
-              </ul>
-            </div>
-          )}
-        </div>
-      ) : (
-        <button
-          onClick={login}
-          className="p-3 login h-10 w-[120px] rounded-md flex items-center justify-center gap-2"
-        >
-          <FaGithub />
-          Login
-        </button>
-      )}
-    </header>
+        )}
+      </header>
+      <VirticalModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        heading={"Create Chat🥳"}
+        title={"Title"}
+        submitfunc={handleSubmit}
+      >
+        <InputGroup className="mb-3 bg-transparent">
+          <Form.Control
+            className="bg-transparent text-white"
+            placeholder="Title"
+            aria-label="Title"
+            value={title}
+            onChange={handleInputChange}
+            aria-describedby="basic-addon1"
+          />
+        </InputGroup>
+      </VirticalModal>
+    </>
   );
 }
 

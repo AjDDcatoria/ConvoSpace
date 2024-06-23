@@ -18,7 +18,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Cascadia Code";
+  font-family: "Cascadia Code", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -47,7 +47,20 @@ div#root {
   border: 1px solid rgb(95, 95, 95);
   top: 0;
   right: 0;
+  opacity: 1;
   transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease-in;
+}
+.modal-menu a,
+.modal-menu:hover a,
+.modal-create,
+.modal-menu {
+  color: white;
+  background-color: rgb(34, 35, 38) !important;
+}
+
+.modal-menu {
+  border: 1px solid rgb(73, 73, 73);
 }
 
 .grid > a p.created {
@@ -73,6 +86,8 @@ div#root {
   top: 10px;
   left: 15px;
   transition: all 0.3s ease;
+  animation: fadeIn 3s ease-in;
+  opacity: 1;
 }
 
 img.theme-yellow {
@@ -134,4 +149,22 @@ img.theme-green {
 .grid .icon {
   border-radius: 50%;
   animation: float 3s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.message-input {
+  border: 1px solid rgb(86, 86, 86);
+}
+
+.chat-content {
+  border-top: 1px solid rgb(42, 42, 42);
+  background-color: rgb(7, 7, 7);
 }
