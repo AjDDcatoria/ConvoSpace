@@ -32,7 +32,7 @@ function Groups() {
               <div>
                 <p className="text-xl">{item?.title}</p>
               </div>
-            </link>
+            </Link>
           ))}
       </section>
     </>
