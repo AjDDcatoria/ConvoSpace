@@ -51,16 +51,10 @@ const ChatContextProvider = ({ children }) => {
         theme: theme[themeIndex],
       },
     ]);
-    console.log(response);
   };
 
   const deleteGroup = async (data) => {
-    console.log("This Id want to delete", data);
-    const response = await supabase.from("groupchat").delete().eq("id", data);
-
-    if (response.status == 204) {
-      console.log("delete Successfull");
-    }
+    await supabase.from("groupchat").delete().eq("id", data);
   };
 
   const getChat = async (id) => {

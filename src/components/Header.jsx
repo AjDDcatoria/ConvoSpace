@@ -54,7 +54,6 @@ function Header() {
   };
 
   const handleInserts = (payload) => {
-    console.log("Change received!", payload);
     getGroupChat();
   };
 

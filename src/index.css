@@ -86,7 +86,7 @@ div#root {
   top: 10px;
   left: 15px;
   transition: all 0.3s ease;
-  animation: fadeIn 3s ease-in;
+  animation: fadeIn 2s ease-in;
   opacity: 1;
 }
 
@@ -149,6 +149,11 @@ img.theme-green {
 .grid .icon {
   border-radius: 50%;
   animation: float 3s ease-in-out infinite;
+}
+
+.fadeIn {
+  opacity: 1;
+  animation: fadeIn 0.4s ease-in;
 }
 
 @keyframes fadeIn {
